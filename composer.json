@@ -1,5 +1,5 @@
 {
-    "name": "runz0rd/common-php",
+    "name": "ttbookig/common-php",
     "description": "My collection of common libraries for php.",
     "keywords": ["common", "library", "php", "helpers", "utilities"],
     "license": "MIT",
@@ -12,7 +12,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/runz0rd/common-php/issues"
+        "issues": "https://github.com/ttbooking/common-php/issues"
     },
     "require-dev": {
         "phpunit/phpunit": "~5"

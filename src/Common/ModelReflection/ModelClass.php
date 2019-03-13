@@ -27,6 +27,11 @@ class ModelClass {
 	 */
 	private $rootName;
 
+    /**
+     * @var string
+     */
+    private $rootEncoding;
+
 	/**
 	 * @var ModelProperty[]
 	 */
@@ -54,6 +59,10 @@ class ModelClass {
 		if($this->docBlock->hasAnnotation(AnnotationEnum::XML_ROOT) && !Validation::isEmpty($this->docBlock->getAnnotation(AnnotationEnum::XML_ROOT))) {
 			$this->rootName = $this->docBlock->getFirstAnnotation(AnnotationEnum::XML_ROOT);
 		}
+
+        if($this->docBlock->hasAnnotation(AnnotationEnum::XML_ENCODING) && !Validation::isEmpty($this->docBlock->getAnnotation(AnnotationEnum::XML_ENCODING))) {
+            $this->rootEncoding = $this->docBlock->getFirstAnnotation(AnnotationEnum::XML_ENCODING);
+        }
 
 		$properties = $reflectionClass->getProperties();
         if(count($properties) == 0) {
@@ -90,6 +99,14 @@ class ModelClass {
 	{
 		return $this->rootName;
 	}
+
+    /**
+     * @return string
+     */
+	public function getRootEncoding()
+    {
+	    return $this->rootEncoding;
+    }
 
 	/**
 	 * @return ModelProperty[]

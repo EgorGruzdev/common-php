@@ -53,7 +53,7 @@ class Iteration {
         return $value;
     }
 
-    public function findValueInSimpleXmlElement($source, $name, $defaultValue) {
+    public static function findValueInSimpleXmlElement($source, $name, $defaultValue) {
         $value = self::findValueInObject($source, $name, $defaultValue);
         if($value instanceof \SimpleXMLElement && $value->children()->count() === 0) {
             $value = (string) $value;
@@ -171,5 +171,7 @@ class Iteration {
             $object->$key = array();
         }
         array_push($object->$key, $value);
+
+        return $object;
     }
 }

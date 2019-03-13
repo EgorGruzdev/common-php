@@ -91,10 +91,25 @@ class ModelProperty {
 		}
 	}
 
+    protected function isSimpleType($type)
+    {
+        return $type == 'string'
+            || $type == 'boolean' || $type == 'bool'
+            || $type == 'integer' || $type == 'int'
+            || $type == 'double' || $type == 'float'
+            || $type == 'array' || $type == 'object';
+    }
+
 	/**::
 	 * @param mixed $value
 	 */
 	public function setPropertyValue($value) {
+	    if($this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE) && is_scalar($value)){
+	        $type = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
+	        if($this->isSimpleType($type)){
+                settype($value, $type);
+            }
+        }
 		$this->property->setValue($this->object, $value);
 	}
 

@@ -52,6 +52,9 @@ class Xml {
             if($nodeName == $key) {
                 $keyCount++;
             }
+            if($keyCount > 1) {
+                return true;
+            }
         }
         if($keyCount > 1) {
             $result = true;
