@@ -72,8 +72,10 @@ class ModelProperty {
 		$this->parentClassName = get_class($parent);
 
 		$this->propertyName = $property->getName();
-		if($this->docBlock->hasAnnotation(AnnotationEnum::NAME)) {
+		if ($this->docBlock->hasAnnotation(AnnotationEnum::NAME)) {
 			$this->annotatedName = $this->docBlock->getFirstAnnotation(AnnotationEnum::NAME);
+		} else if ($this->docBlock->hasAnnotation(AnnotationEnum::ALIAS)) {
+			$this->annotatedName = $this->docBlock->getFirstAnnotation(AnnotationEnum::ALIAS);
 		}
 
 		$propertyType = gettype($this->property->getValue($parent));

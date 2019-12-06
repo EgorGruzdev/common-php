@@ -11,6 +11,7 @@ namespace Common\ModelReflection\Enum;
 class AnnotationEnum {
     const VARIABLE = 'var';
     const NAME = 'name';
+	const ALIAS = 'alias';
     const REQUIRED = 'required';
     const RULE = 'rule';
     const XML_ROOT = 'xmlRoot';
