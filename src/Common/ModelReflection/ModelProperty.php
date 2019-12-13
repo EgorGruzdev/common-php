@@ -7,11 +7,13 @@
  */
 
 namespace Common\ModelReflection;
+
 use Common\Util\Validation;
 use Common\ModelReflection\Enum\TypeEnum;
 use Common\ModelReflection\Enum\AnnotationEnum;
 
-class ModelProperty {
+class ModelProperty
+{
 
 	/**
 	 * @var string
@@ -64,7 +66,8 @@ class ModelProperty {
 	 * @param object $parent
 	 * @param string $parentNS
 	 */
-	public function __construct(\ReflectionProperty $property, $parent, $parentNS) {
+	public function __construct(\ReflectionProperty $property, $parent, $parentNS)
+	{
 		$this->property = $property;
 		$this->object = $parent;
 		$this->docBlock = new DocBlock($property->getDocComment());
@@ -74,51 +77,68 @@ class ModelProperty {
 		$this->propertyName = $property->getName();
 		if ($this->docBlock->hasAnnotation(AnnotationEnum::NAME)) {
 			$this->annotatedName = $this->docBlock->getFirstAnnotation(AnnotationEnum::NAME);
-		} else if ($this->docBlock->hasAnnotation(AnnotationEnum::ALIAS)) {
-			$this->annotatedName = $this->docBlock->getFirstAnnotation(AnnotationEnum::ALIAS);
+		} else {
+			if ($this->docBlock->hasAnnotation(AnnotationEnum::ALIAS)) {
+				$this->annotatedName = $this->docBlock->getFirstAnnotation(AnnotationEnum::ALIAS);
+			}
 		}
 
 		$propertyType = gettype($this->property->getValue($parent));
 		$annotatedType = TypeEnum::ANY;
-		if($this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE) && !Validation::isEmpty($this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE))) {
+		if ($this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE) && !Validation::isEmpty($this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE))) {
 			$annotatedType = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
 		}
 		$this->type = new ModelPropertyType($propertyType, $annotatedType, $parentNS);
 
 		$this->isRequired = false;
-        $this->requiredActions = array();
-		if($this->docBlock->hasAnnotation(AnnotationEnum::REQUIRED)) {
+		$this->requiredActions = array();
+		if ($this->docBlock->hasAnnotation(AnnotationEnum::REQUIRED)) {
 			$this->isRequired = true;
 			$this->requiredActions = $this->docBlock->getAnnotation(AnnotationEnum::REQUIRED);
 		}
 	}
 
-    protected function isSimpleType($type)
-    {
-        return $type == 'string'
-            || $type == 'boolean' || $type == 'bool'
-            || $type == 'integer' || $type == 'int'
-            || $type == 'double' || $type == 'float'
-            || $type == 'array' || $type == 'object';
-    }
+	protected function isSimpleType($type)
+	{
+		return $type == 'string'
+			|| $type == 'boolean' || $type == 'bool'
+			|| $type == 'integer' || $type == 'int'
+			|| $type == 'double' || $type == 'float'
+			|| $type == 'array' || $type == 'object';
+	}
 
 	/**::
 	 * @param mixed $value
 	 */
-	public function setPropertyValue($value) {
-	    if($this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE) && is_scalar($value)){
-	        $type = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
-	        if($this->isSimpleType($type)){
-                settype($value, $type);
-            }
-        }
+	public function setPropertyValue($value)
+	{
+		if (is_scalar($value) && $this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE)) {
+			$type = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
+			if ($this->isSimpleType($type)) {
+				settype($value, $type);
+			}
+		} elseif (is_array($value) && $this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE)) {
+			$type = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
+
+			if (strpos($type, '[]')) {
+				$type = rtrim($type, '[]');
+			}
+
+			if ($this->isSimpleType($type)) {
+				foreach ($value as $key => $item) {
+					settype($value[$key], $type);
+				}
+			}
+		}
+
 		$this->property->setValue($this->object, $value);
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getPropertyValue() {
+	public function getPropertyValue()
+	{
 		return $this->property->getValue($this->object);
 	}
 
@@ -126,9 +146,10 @@ class ModelProperty {
 	 * Returns the given property name, or @name value, if set
 	 * @return string
 	 */
-	public function getName() {
+	public function getName()
+	{
 		$name = $this->propertyName;
-		if(!Validation::isEmpty($this->annotatedName)) {
+		if (!Validation::isEmpty($this->annotatedName)) {
 			$name = $this->annotatedName;
 		}
 

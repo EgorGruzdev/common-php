@@ -94,7 +94,7 @@ class Iteration {
             }
         }
         else {
-            $source = Validation::filterInteger($source);
+            //$source = Validation::filterInteger($source);
             $source = Validation::filterBoolean($source);
         }
 
