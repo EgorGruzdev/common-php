@@ -123,6 +123,8 @@ class ModelPropertyTypeTest extends \PHPUnit\Framework\TestCase {
         if($isModel) {
             $expected = $this->modelProperties[$index]->getType()->getModelClassName();
             $this->assertEquals($expected, $modelClassName);
+        } else {
+            $this->expectNotToPerformAssertions();
         }
     }
 

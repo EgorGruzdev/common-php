@@ -77,9 +77,9 @@ class ModelClassTest extends \PHPUnit\Framework\TestCase {
     /**
      * @param $invalidModel
      * @dataProvider invalidModels
-     * @expectedException Exception
      */
     public function testConstructFail($invalidModel) {
+        $this->expectException(Exception::class);
         $modelClass = new ModelClass($invalidModel);
     }
 
@@ -89,10 +89,8 @@ class ModelClassTest extends \PHPUnit\Framework\TestCase {
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @expectedException Exception
-     */
     public function testInstantiateFail() {
+        $this->expectException(Exception::class);
         $expected = new \TestModel();
         $actual = ModelClass::instantiate('Asd\TestModel');
     }

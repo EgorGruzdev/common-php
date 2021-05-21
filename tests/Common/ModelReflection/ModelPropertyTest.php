@@ -78,10 +78,10 @@ class ModelPropertyTest extends \PHPUnit\Framework\TestCase {
      * @param $index
      * @dataProvider validValues
      */
-    public function testSetPropertyValue($index) {
-        $this->modelProperties[$index]->setPropertyValue('testValue');
+    public function testSetPropertyValue($index, $value) {
+        $this->modelProperties[$index]->setPropertyValue($value);
         $expected = $this->modelProperties[$index]->getPropertyValue();
-        $this->assertEquals($expected, 'testValue');
+        $this->assertEquals($expected, $value);
     }
 
     /**

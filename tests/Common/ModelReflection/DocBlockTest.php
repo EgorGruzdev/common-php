@@ -53,9 +53,9 @@ class DocBlockTest extends \PHPUnit\Framework\TestCase {
     /**
      * @param $name
      * @dataProvider invalidValues
-     * @expectedException Exception
      */
     public function testGetFirstAnnotationFail($name) {
+        $this->expectException(Exception::class);
         $this->docBlock->getFirstAnnotation($name);
     }
 
@@ -72,9 +72,9 @@ class DocBlockTest extends \PHPUnit\Framework\TestCase {
     /**
      * @param $name
      * @dataProvider invalidValues
-     * @expectedException Exception
      */
     public function testGetAnnotationFail($name) {
+        $this->expectException(Exception::class);
         $this->docBlock->getAnnotation($name);
     }
 
