@@ -128,11 +128,13 @@ class ModelProperty
 		} elseif (is_array($value) && $this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE)) {
 			$type = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
 
+			$isArray = false;
 			if (strpos($type, '[]')) {
 				$type = rtrim($type, '[]');
+				$isArray = true;
 			}
 
-			if ($this->isSimpleType($type)) {
+			if ($isArray && $this->isSimpleType($type)) {
 				foreach ($value as $key => $item) {
 					settype($value[$key], $type);
 				}
