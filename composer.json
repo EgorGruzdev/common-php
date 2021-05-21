@@ -14,8 +14,11 @@
     "support": {
         "issues": "https://github.com/ttbooking/common-php/issues"
     },
+    "require": {
+        "PHP": "^7.4 || ^8.0"
+    },
     "require-dev": {
-        "phpunit/phpunit": "~5"
+        "phpunit/phpunit": "~9"
     },
     "autoload": {
         "psr-4": {

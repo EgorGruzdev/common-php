@@ -8,14 +8,15 @@
  */
 use Common\ModelReflection\DocBlock;
 
-class DocBlockTest extends PHPUnit_Framework_TestCase {
+class DocBlockTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @var DocBlock
      */
     public $docBlock;
 
-    public function setUp() {
+    public function setUp(): void
+    {
         $docBlockText = "/**\r\n * @testAnnotation test1\r\n * @testAnnotation test1\r\n * @anotherTestAnnotation test2\r\n */";
         $this->docBlock = new DocBlock($docBlockText);
         parent::setUp();

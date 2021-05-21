@@ -6,7 +6,7 @@
  * Date: 9/6/2016
  * Time: 8:48 PM
  */
-class DirectoryTest extends PHPUnit_Framework_TestCase {
+class DirectoryTest extends \PHPUnit\Framework\TestCase {
 
     public function testScan() {
         $expected = array(

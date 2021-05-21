@@ -6,7 +6,7 @@
  * Date: 9/6/2016
  * Time: 8:49 PM
  */
-class FileTest extends PHPUnit_Framework_TestCase
+class FileTest extends \PHPUnit\Framework\TestCase
 {
 
 }

@@ -10,14 +10,15 @@
 use Common\ModelReflection\ModelClass;
 use Common\ModelReflection\ModelProperty;
 
-class ModelPropertyTypeTest extends PHPUnit_Framework_TestCase {
+class ModelPropertyTypeTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @var ModelProperty[]
      */
     public $modelProperties;
 
-    public function setUp() {
+    public function setUp(): void
+    {
         $object = new stdClass();
         $object->a = 1;
 

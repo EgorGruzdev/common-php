@@ -9,14 +9,15 @@
 
 use Common\ModelReflection\ModelClass;
 
-class ModelClassTest extends PHPUnit_Framework_TestCase {
+class ModelClassTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @var ModelClass
      */
     public $modelClass;
 
-    public function setUp() {
+    public function setUp(): void
+    {
         $object = new stdClass();
         $object->a = 1;
 

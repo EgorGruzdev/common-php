@@ -83,11 +83,19 @@ class ModelProperty
 			}
 		}
 
-		$propertyType = gettype($this->property->getValue($parent));
-		$annotatedType = TypeEnum::ANY;
+
+		if($this->property->getType() instanceof \ReflectionType) {
+            $propertyType = $this->property->getType()->getName();
+            $annotatedType = $propertyType;
+        } else {
+		    $propertyType = gettype($this->property->getValue($parent));
+            $annotatedType = TypeEnum::ANY;
+        }
+
 		if ($this->docBlock->hasAnnotation(AnnotationEnum::VARIABLE) && !Validation::isEmpty($this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE))) {
 			$annotatedType = $this->docBlock->getFirstAnnotation(AnnotationEnum::VARIABLE);
 		}
+
 		$this->type = new ModelPropertyType($propertyType, $annotatedType, $parentNS);
 
 		$this->isRequired = false;
@@ -139,7 +147,11 @@ class ModelProperty
 	 */
 	public function getPropertyValue()
 	{
-		return $this->property->getValue($this->object);
+	    if(! $this->property->isInitialized($this->object)) {
+		    return null;
+        }
+
+        return $this->property->getValue($this->object);
 	}
 
 	/**
